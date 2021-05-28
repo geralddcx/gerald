@@ -36,6 +36,7 @@ def Pkg_Install(pkg_name):
 #     resp = conn.getresponse()
 #     return resp.status < 400
 
+<<<<<<< HEAD
 # command = 'apt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mariadb-server mariadb-client -y'
 # os.system('echo %s|sudo -S %s' % (sudo_password, command) )
 
@@ -83,6 +84,8 @@ fichier2 = open("/etc/apache2/mods-enabled/dir.conf","r")
 print(fichier2.read())
 fichier2.close()
 
+=======
+>>>>>>> 14339073328cb4250d9379f2ef11e3a60a6f5b3c
 
 # url = 'https://fr.wordpress.org/latest-fr_FR.tar.gz'
 # # print(checkUrl(url))
@@ -113,5 +116,37 @@ fichier2.close()
 # else:
 #     print("le fichier n'a pas ete recupere correctement")
 
+<<<<<<< HEAD
+=======
+# command = 'apt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mariadb-server mariadb-client -y'
+# os.system('echo %s|sudo -S %s' % (sudo_password, command) )
+
+
+listeName = ["apache2" , "apache2-utils" , "php" , "libapache2-mod-php" , "php-mysql" , "php-curl" , "php-gd" , "php-intl" , "php-mbstring" , "php-soap" , "php-xml" , "php-xmlrpc" , "php-zip" , "mariadb-server" , "mariadb-client"]
+
+for pkg_name_ in listeName:
+    print(f"Next module : {pkg_name_}")
+    Pkg_Install(pkg_name_)
+
+
+# pkg_name = "apache2"
+
+# cache = apt.cache.Cache()
+# cache.update()
+# cache.open()
+
+# pkg = cache[pkg_name]
+
+# if pkg.is_installed:
+#     print (f"{pkg_name} already installed")
+# else:
+#     pkg.mark_install()
+#     print(f"Install {pkg_name}")
+#     try:
+#         cache.commit()
+#     except ErrorArg:
+#         print(f"Sorry, package installation failed {ErrorArg}")
+
+>>>>>>> 14339073328cb4250d9379f2ef11e3a60a6f5b3c
 
 print("fin")
