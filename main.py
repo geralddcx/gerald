@@ -31,11 +31,13 @@ def Pkg_Install(pkg_name):
 def restart_service(service_name):
     new_start = subprocess.run(["systemctl" , "restart" , service_name])
     time.sleep(5)
-
+    print(f"restart {service_name}")
+    
 
 def check_status(service_name):     
     new_status = subprocess.run(["systemctl", "status", service_name])  
-    time.sleep(5)     
+    time.sleep(5)   
+    print(f"status {service_name}")
 
 
 def check_content_file(spath):
@@ -43,21 +45,30 @@ def check_content_file(spath):
     time.sleep(5)   
 
 
-# from urllib.parse import urlparse
-# from urlparse import urlparse
+def get_file(url, filename):
+    try:
+        mynewfile = requests.get(url)
+        open( filename, 'wb').write(mynewfile.content)
+        return filename
 
-# def checkUrl(url):
-#     p = urlparse(url)
-#     conn = httplib.HTTPConnection(p.netloc)
-#     conn.request('HEAD', p.path)
-#     resp = conn.getresponse()
-#     return resp.status < 400
+    except ImportError:        
+        return get_file(url, filename)  
 
-# command = 'pt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mariadb-server mariadb-client mysql-server php-mysql   -y'
-# os.system('echo %s|sudo -S %s' % (sudo_password, command) )
+from urllib.parse import urlparse
+from urlparse import urlparse
+
+def checkUrl(url):
+    p = urlparse(url)
+    conn = httplib.HTTPConnection(p.netloc)
+    conn.request('HEAD', p.path)
+    resp = conn.getresponse()
+    return resp.status < 400
+
+command = 'pt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mysql-server php-mysql   -y'
+os.system('echo %s|sudo -S %s' % (sudo_password, command) )
 
 
-listeName = ["apache2" , "apache2-utils" , "php" , "libapache2-mod-php" , "php-mysql" , "php-curl" , "php-gd" , "php-intl" , "php-mbstring" , "php-soap" , "php-xml" , "php-xmlrpc" , "php-zip" , "mariadb-server" , "mariadb-client" , "mysql-server", "php-mysql"]
+listeName = ["apache2" , "apache2-utils" , "php" , "libapache2-mod-php" , "php-mysql" , "php-curl" , "php-gd" , "php-intl" , "php-mbstring" , "php-soap" , "php-xml" , "php-xmlrpc" , "php-zip" , "mysql-server", "php-mysql"]
 
 for pkg_name_ in listeName:
     print(f"Next module : {pkg_name_}")
@@ -115,31 +126,52 @@ while True:
 
 restart_service('apache2')
 restart_service('mysql')
-# check_status('apache2')
+check_status('apache2')
 
+print("get wordpress")
 
 url = 'https://fr.wordpress.org/latest-fr_FR.tar.gz'
 # print(checkUrl(url))
 
+# filename = get_file(url, 'wordpress.tar.gz')
+# print(f"status recuperation= {filename.status_code}")
+# open('wordpress.tar.gz', 'wb').write(filename.content)
 # if checkUrl(url):
 try:
-    myfile = requests.get(url)
+    filename = requests.get(
+        'https://fr.wordpress.org/latest-fr_FR.tar.gz'
+    )
+    open('wordpress.tar.gz', 'wb').write(filename.content)
 
 except ImportError:
     raise ImportError("probleme de recuperation avec l'url")
 
-else:
-    print("probleme avec l'url pour recuperer wordpress")
-    exit()
+# else:
+#     print("probleme avec l'url pour recuperer wordpress")
+#     exit()
+
+filepath = "/home/bob/Desktop/Projets/p6/gerald/wordpress.tar.gz"
+
+print("unzip wordpress")
+try:
+    print(os.stat(filepath).st_size)
+
+except FileExistsError:
+    raise ImportError("Le fichier n'existe pas")
 
 
-print(os.stat(myfile).st_size)
-if os.stat(myfile).st_size > 0:   
+if os.stat(filepath).st_size > 0:   
     try:
-        open('/home/neoxyz/Desktop/Projets/gerald/wordpress.tar.gz','wb').write(myfile.content)
-        tar = tarfile.open('wordpress.tar.gz')
-        tar.extractall('/var/www/html/wordpress')
-        tar.close()
+        # open( filepath ,'wb').write(filepath.content)
+        print("on est rentre dedans")
+        my_tar = tarfile.open(filepath, 'r:gz')
+        print("on lit")
+        my_tar.list(verbose=True)
+        print("on va extraire")
+        # my_tar.extractall('~/wordpress/')
+        my_tar.extractall('/var/www/html/')
+        print("on va fermer")
+        my_tar.close()
 
     except ImportError:
         raise ImportError("probleme ouverture du fichier tar.gz")
