@@ -54,18 +54,18 @@ def get_file(url, filename):
     except ImportError:        
         return get_file(url, filename)  
 
-from urllib.parse import urlparse
-from urlparse import urlparse
+# from urllib.parse import urlparse
+# from urlparse import urlparse
 
-def checkUrl(url):
-    p = urlparse(url)
-    conn = httplib.HTTPConnection(p.netloc)
-    conn.request('HEAD', p.path)
-    resp = conn.getresponse()
-    return resp.status < 400
+# def checkUrl(url):
+#     p = urlparse(url)
+#     conn = httplib.HTTPConnection(p.netloc)
+#     conn.request('HEAD', p.path)
+#     resp = conn.getresponse()
+#     return resp.status < 400
 
-command = 'pt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mysql-server php-mysql   -y'
-os.system('echo %s|sudo -S %s' % (sudo_password, command) )
+# command = 'pt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mysql-server php-mysql   -y'
+# os.system('echo %s|sudo -S %s' % (sudo_password, command) )
 
 
 listeName = ["apache2" , "apache2-utils" , "php" , "libapache2-mod-php" , "php-mysql" , "php-curl" , "php-gd" , "php-intl" , "php-mbstring" , "php-soap" , "php-xml" , "php-xmlrpc" , "php-zip" , "mysql-server", "php-mysql"]
@@ -126,7 +126,7 @@ while True:
 
 restart_service('apache2')
 restart_service('mysql')
-check_status('apache2')
+# check_status('apache2')
 
 print("get wordpress")
 
