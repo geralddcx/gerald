@@ -54,15 +54,7 @@ def get_file(url, filename):
     except ImportError:        
         return get_file(url, filename)  
 
-# from urllib.parse import urlparse
-# from urlparse import urlparse
 
-# def checkUrl(url):
-#     p = urlparse(url)
-#     conn = httplib.HTTPConnection(p.netloc)
-#     conn.request('HEAD', p.path)
-#     resp = conn.getresponse()
-#     return resp.status < 400
 
 # command = 'pt install apache2 apache2-utils php libapache2-mod-php php-mysql php-curl php-gd php-intl php-mbstring php-soap php-xml php-xmlrpc php-zip mysql-server php-mysql   -y'
 # os.system('echo %s|sudo -S %s' % (sudo_password, command) )
@@ -126,17 +118,13 @@ while True:
 
 restart_service('apache2')
 restart_service('mysql')
-# check_status('apache2')
+
 
 print("get wordpress")
 
 url = 'https://fr.wordpress.org/latest-fr_FR.tar.gz'
-# print(checkUrl(url))
 
-# filename = get_file(url, 'wordpress.tar.gz')
-# print(f"status recuperation= {filename.status_code}")
-# open('wordpress.tar.gz', 'wb').write(filename.content)
-# if checkUrl(url):
+
 try:
     filename = requests.get(
         'https://fr.wordpress.org/latest-fr_FR.tar.gz'
@@ -146,9 +134,6 @@ try:
 except ImportError:
     raise ImportError("probleme de recuperation avec l'url")
 
-# else:
-#     print("probleme avec l'url pour recuperer wordpress")
-#     exit()
 
 filepath = "/home/bob/Desktop/Projets/p6/gerald/wordpress.tar.gz"
 
@@ -163,14 +148,17 @@ except FileExistsError:
 if os.stat(filepath).st_size > 0:   
     try:
         # open( filepath ,'wb').write(filepath.content)
-        print("on est rentre dedans")
+        print("on commence l'extraction")
         my_tar = tarfile.open(filepath, 'r:gz')
-        print("on lit")
-        my_tar.list(verbose=True)
+        time.sleep(2)
+        # print("on lit")
+        # my_tar.list(verbose=True)
         print("on va extraire")
         # my_tar.extractall('~/wordpress/')
         my_tar.extractall('/var/www/html/')
+        time.sleep(2)
         print("on va fermer")
+        time.sleep(2)
         my_tar.close()
 
     except ImportError:
